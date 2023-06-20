@@ -39,41 +39,46 @@ class HBNBCommand(cmd.Cmd):
         """
         Creates a new instance of BaseModel, saves it (to JSON file) and
         prints the id. Ex: $ create BaseModel"""
-        myArgs = re.split(' |=|"', arg)
-        while '' in myArgs:
-            myArgs.remove('')
-
-        if len(myArgs) == 0:
-
+        if len(arg) == 0:
             """ Check if argument was passed"""
             print("** class name missing **")
-        elif myArgs[0] not in HBNBCommand.__classes:
-            """ Check if class name argument was passed"""
-            print("** class doesn't exist **")
-        elif len(myArgs) == 1:
-            new_instance = HBNBCommand.__classes[myArgs[0]]()
-            storage.new(new_instance)
-            storage.save()
-            print(new_instance.id)
-        elif len(myArgs) >= 3:
-            new_instance = HBNBCommand.__classes[myArgs[0]]()
-            storage.new(new_instance)
-            storage.save()
-            print(new_instance.id)
-            class_name = myArgs[0]
-            instance_id = new_instance.id
+            return False
+        else:
+            # to split the arg and remove plant spaces
+            myArgs = re.split(' |=|"', arg)
+            while '' in myArgs:
+                myArgs.remove('')
 
-            attributes = {}
-            for number in range(1, len(myArgs), 2):
-                attributes[myArgs[number]] = myArgs[number + 1]
+            if myArgs[0] not in HBNBCommand.__classes:
+                """ Check if class name argument was passed"""
+                print("** class doesn't exist **")
+                return False
 
-            instance_Key = "{}.{}".format(class_name, instance_id)
-            Class_Instance = storage.all()
-            if instance_Key in Class_Instance.keys():
-                instance_pointer = Class_Instance[instance_Key]
-                for key, value in attributes.items():
-                    setattr(instance_pointer, key, value)
+            elif len(myArgs) == 1:
+                new_instance = HBNBCommand.__classes[myArgs[0]]()
+                storage.new(new_instance)
                 storage.save()
+                print(new_instance.id)
+                return False
+            elif len(myArgs) >= 3:
+                new_instance = HBNBCommand.__classes[myArgs[0]]()
+                storage.new(new_instance)
+                storage.save()
+                print(new_instance.id)
+                class_name = myArgs[0]
+                instance_id = new_instance.id
+
+                attributes = {}
+                for number in range(1, len(myArgs), 2):
+                    attributes[myArgs[number]] = myArgs[number + 1]
+
+                instance_Key = "{}.{}".format(class_name, instance_id)
+                Class_Instance = storage.all()
+                if instance_Key in Class_Instance.keys():
+                    instance_pointer = Class_Instance[instance_Key]
+                    for key, value in attributes.items():
+                        setattr(instance_pointer, key, value)
+                    storage.save()
 
 # ----------------------------------------------------------------------------
 
@@ -136,14 +141,15 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """
         Prints all string representation of all instances based or
-        not on the class name. Ex: $ all BaseModel or $ all."""
+        not on the class name. Ex: $ all BaseModel or $ all.
+        """
         my_print_list = []
         if arg:
-            # This assigned index 0 of the split to arg
-            arg = arg.split(' ')
+            # This splits arg and assigns index 0 of the split to arg
+            arg = arg.split(' ')[0]
             if arg not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
-                return
+                return False
             for key, value in storage.all().items():
                 if key.split('.')[0] == arg:
                     my_print_list.append(str(value))
@@ -193,24 +199,25 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-    def all(self, line):
-        """all method up be called by default,
-        parses the regex and run if it matches.
-        """
-        my_re = r"({})?\.?(all\(\))?".format("|".join(self.model_dict.keys()))
-        regex = re.compile(my_re)
-        model, cond = regex.search(line).groups()
-        if not cond:
-            return False
-        if cond and model in self.model_dict.keys():
-            result = storage.all()
-            for k, v in result.items():
-                if k.split(".")[0] == model:
-                    print(v)
-            return True
-        else:
-            print("** class doesn't exist **")
-            return True
+#    def all(self, line):
+#        """all method up be called by default,
+#        parses the regex and run if it matches.
+#        """
+#        print("I am here")
+#        my_re = r"({})?\.?(all\(\))?".format("|".join(self.model_dict.keys()))
+#        regex = re.compile(my_re)
+#        model, cond = regex.search(line).groups()
+#        if not cond:
+#            return False
+#        if cond and model in self.model_dict.keys():
+#            result = storage.all()
+#            for k, v in result.items():
+#                if k.split(".")[0] == model:
+#                    print(v)
+#            return True
+#        else:
+#            print("** class doesn't exist **")
+#            return True
 
 
 if __name__ == '__main__':
