@@ -9,7 +9,7 @@ from models.city import City
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
-
+import re
 
 class HBNBCommand(cmd.Cmd):
     """
@@ -33,21 +33,48 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program"""
         return True
 
+#----------------------------------------------------------------------------
     def do_create(self, arg):
         """
         Creates a new instance of BaseModel, saves it (to JSON file) and
         prints the id. Ex: $ create BaseModel"""
-        if arg == "":
+        myArgs = re.split(' |=|"',arg)
+        while '' in myArgs:
+            myArgs.remove('')
+
+        if len(myArgs) == 0:
+
             """ Check if argument was passed"""
             print("** class name missing **")
-        elif arg not in HBNBCommand.__classes:
+        elif myArgs[0] not in HBNBCommand.__classes:
             """ Check if class name argument was passed"""
             print("** class doesn't exist **")
-        else:
-            new_instance = HBNBCommand.__classes[arg]()
+        elif len(myArgs) == 1:
+            new_instance = HBNBCommand.__classes[myArgs[0]]()
             storage.new(new_instance)
             storage.save()
             print(new_instance.id)
+        elif len(myArgs) >= 3:
+            new_instance = HBNBCommand.__classes[myArgs[0]]()
+            storage.new(new_instance)
+            storage.save()
+            print(new_instance.id)
+            class_name = myArgs[0]
+            instance_id = new_instance.id
+
+            attributes ={}
+            for number in range(1, len(myArgs), 2):
+                attributes[myArgs[number]] = myArgs[number + 1]
+
+            instance_Key = "{}.{}".format(class_name, instance_id)
+            Class_Instance = storage.all()
+            if instance_Key in Class_Instance.keys():
+                instance_pointer = Class_Instance[instance_Key]
+                for key, value in attributes.items():
+                    setattr(instance_pointer, key, value)
+                storage.save()
+
+#----------------------------------------------------------------------------
 
     def do_show(self, arg):
         """
@@ -109,24 +136,20 @@ class HBNBCommand(cmd.Cmd):
         """
         Prints all string representation of all instances based or
         not on the class name. Ex: $ all BaseModel or $ all."""
-
-        print(arg)
-        if not arg:
-            all_objects = storage.all()
-            for object_id in all_objects.keys():
-                object = all_objects[object_id]
-                print(object)
-            return
-
-        if arg not in HBNBCommand.__classes:
-            """ Check if class name argument was passed"""
-            print("** class doesn't exist **")
+        my_print_list = []
+        if arg:
+            arg = arg.split(' ')[0] # This assigned index 0 of the split to arg
+            if arg not in HBNBCommand.__classes:
+                print("** class doesn't exist **")
+                return
+            for key, value in storage.all().items():
+                if key.split('.')[0] == arg:
+                    my_print_list.append(str(value))
         else:
-            all_objects = storage.all()
-            for object_id in all_objects.keys():
-                object = all_objects[object_id]
-                print(object)
-
+            for key, value in storage.all().items():
+                my_print_list.append(str(value))
+        print(my_print_list)
+        
     def do_update(self, arg):
         """
         Updates an instance based on the class name and id by adding or
@@ -159,13 +182,16 @@ class HBNBCommand(cmd.Cmd):
                 # to update, use:
                 # class_instance[instance_key].__dict__[attr_key] = attr_val
                 # or
+                
                 instance_pointer = Class_Instance[instance_Key]
                 setattr(instance_pointer, attr_key, attr_val)
+                
                 # to save, use: class_instance[instance_key].save
                 # or
                 storage.save()
             else:
                 print("** no instance found **")
+
     def all(self, line):
         """all method up be called by default,
         parses the regex and run if it matches.
