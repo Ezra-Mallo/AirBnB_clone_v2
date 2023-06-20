@@ -11,6 +11,7 @@ from models.amenity import Amenity
 from models.review import Review
 import re
 
+
 class HBNBCommand(cmd.Cmd):
     """
     This class is the entry point of the command interpreter."""
@@ -18,7 +19,7 @@ class HBNBCommand(cmd.Cmd):
     # intro = 'Welcome to hbnb shell.'
     prompt = "(hnbn) "
     __classes = {"BaseModel": BaseModel, "User": User, "State": State,
-                 "Place": Place,"City": City, "Amenity": Amenity,
+                 "Place": Place, "City": City, "Amenity": Amenity,
                  "Review": Review}
 
     def emptyline(self):
@@ -33,12 +34,12 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program"""
         return True
 
-#----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
     def do_create(self, arg):
         """
         Creates a new instance of BaseModel, saves it (to JSON file) and
         prints the id. Ex: $ create BaseModel"""
-        myArgs = re.split(' |=|"',arg)
+        myArgs = re.split(' |=|"', arg)
         while '' in myArgs:
             myArgs.remove('')
 
@@ -62,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
             class_name = myArgs[0]
             instance_id = new_instance.id
 
-            attributes ={}
+            attributes = {}
             for number in range(1, len(myArgs), 2):
                 attributes[myArgs[number]] = myArgs[number + 1]
 
@@ -74,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
                     setattr(instance_pointer, key, value)
                 storage.save()
 
-#----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
     def do_show(self, arg):
         """
@@ -138,7 +139,8 @@ class HBNBCommand(cmd.Cmd):
         not on the class name. Ex: $ all BaseModel or $ all."""
         my_print_list = []
         if arg:
-            arg = arg.split(' ')[0] # This assigned index 0 of the split to arg
+            # This assigned index 0 of the split to arg
+            arg = arg.split(' ')
             if arg not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
                 return
@@ -149,7 +151,7 @@ class HBNBCommand(cmd.Cmd):
             for key, value in storage.all().items():
                 my_print_list.append(str(value))
         print(my_print_list)
-        
+
     def do_update(self, arg):
         """
         Updates an instance based on the class name and id by adding or
@@ -182,10 +184,9 @@ class HBNBCommand(cmd.Cmd):
                 # to update, use:
                 # class_instance[instance_key].__dict__[attr_key] = attr_val
                 # or
-                
                 instance_pointer = Class_Instance[instance_Key]
                 setattr(instance_pointer, attr_key, attr_val)
-                
+
                 # to save, use: class_instance[instance_key].save
                 # or
                 storage.save()
@@ -210,6 +211,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
             return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
