@@ -4,9 +4,13 @@ Module for initializing storage engine
 """
 
 from models.engine.file_storage import FileStorage
+from models.engine.db_storage import DBStorage
+from os import environ
 
-# Create a unique FileStorage instance
-storage = FileStorage()
+# using environmental variable to know which storage method to user
+if environ.get("HBNB_TYPE_STORAGE") == "db":
+    storage = DBStorage()
+else:
+    storage = FileStorage()
 
-# Call reload() method on this variable
 storage.reload()
