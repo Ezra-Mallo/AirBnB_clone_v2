@@ -8,13 +8,14 @@ This is the third step towards building our first full web application: the AirB
 
 We shall modify our command interpreter, create database and link all our objects up. All these are still at the backend of this project.
 
-
 <img src="https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/images_logos/hbnb_stack.png"
 	    alt="ALX_AirBnB logo">
 </p>
+<p>
 <img src="https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/images_logos/hbnb_db_structural_design.jpg"
 	    alt="ALX_AirBnB DB structural Design">
 </p>
+
 ### Functionalities of this command interpreter:
 * Create a new object (ex: a new User or a new Place)
 * Retrieve an object from a file, a database etc...
