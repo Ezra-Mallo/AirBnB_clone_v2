@@ -1,19 +1,28 @@
-<h1 align="center">0x02. AirBnB clone - MySQL.</h1>
+<h1 align="center">0x00. AirBnB clone - The console.</h1>
 <p align="center">
 <img src="https://github.com/Ezra-Mallo/AirBnB_clone_v1/blob/master/images_logos/hbnb_logo.png"
 	    alt="ALX_AirBnB logo">
 </p>
 
-This is the third step towards building our first full web application: the AirBnB clone. 
+This is the first step towards building your first full web application: the AirBnB clone. 
 
-We shall modify our command interpreter, create database and link all our objects up. All these are still at the backend of this project.
+This first step is very important because it will be used with other projects namely:
+* HTML/CSS templating,
+* database storage, 
+* API, front-end integration put in place a parent class (called BaseModel) to take care of the initialization, serialization and deserialization of your future instances
+
+We shall:
+* create a simple flow of serialization/deserialization: Instance <-> Dictionary <-> JSON string <-> filei
+* create all classes used for AirBnB (User, State, City, Place…) that inherit from BaseModel
+* create the first abstracted storage engine of the project: File storage.
+* create all unittests to validate all our classes and storage engine
+
+This project covers fundamental concepts of higher level programming. A copy will be deployed on a server of the AirBnB Website(HBnB). 
+A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website from backend.
 
 
 <img src="https://github.com/Ezra-Mallo/AirBnB_clone_v1/blob/master/images_logos/hbnb_stack.png"
 	    alt="ALX_AirBnB logo">
-</p>
-<img src="https://github.com/Ezra-Mallo/AirBnB_clone_v1/blob/master/images_logos/hbnb_db_structural_design.jpg"
-	    alt="ALX_AirBnB DB structural Design">
 </p>
 ### Functionalities of this command interpreter:
 * Create a new object (ex: a new User or a new Place)
@@ -34,17 +43,6 @@ We shall modify our command interpreter, create database and link all our object
 
 ## Environment
 This project is interpreted/tested on Ubuntu 14.04 LTS using python3 (version 3.4.3)
-Environment variables will be your best friend for this project!
-
-* HBNB_ENV: running environment. It can be “dev” or “test” for the moment (“production” soon!)
-* HBNB_MYSQL_USER: the username of your MySQL
-* HBNB_MYSQL_PWD: the password of your MySQL
-* HBNB_MYSQL_HOST: the hostname of your MySQL
-* HBNB_MYSQL_DB: the database name of your MySQL
-* HBNB_TYPE_STORAGE: the type of storage used. It can be “file” (using FileStorage) or db (using DBStorage)
-
-
-This project covers fundamental concepts of higher level programming. A copy will be deployed on a server of the AirBnB Website(HBnB). 
 
 ## Installation
 * Clone this repository: `git clone "https://github.com/Ezra-Mallo/AirBnB_clone_v1.git"`
@@ -179,10 +177,14 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time.
 
 ## Authors
-<strong>Authors📜</strong>
-* `Baasit Bolaji Ayomiposi` - <a href="https://github.com/Toby16">Toby16</a>
-* `Ezra Christopher Mallo` - <a href="https://github.com/Ezra-Mallo">Ezra-Mallo</a>
-* `Bubacarr Jallow` - <a href="https://github.com/Devjallow">Devjallow</a>
+Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)
+Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Obed Ehoneah - [Github](https://github.com/ehoneahobed) / [Twitter](https://ehoneahobed.com/twitter)
+Grace Olabode - [Github](https://github.com/Amazingracee) / [Twitter](https://olabodephoeb.com/twitter)
+=======
+
+>>>>>>> aac5acdaf910012588914eb3717c1dfbc215cbd8
+Second part of Airbnb: Joann Vuong
 
 ## License
 Public Domain. No copy write protection.
