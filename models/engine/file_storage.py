@@ -36,7 +36,7 @@ class FileStorage:
         """Initialization"""
         pass
 
-    def all(self):
+    def all(self, cls=None):
         """
         returns the dictionary __objects
         """
@@ -80,4 +80,14 @@ class FileStorage:
                     class_ID = split_result[1]
                     obj_class = FileStorage.__classes.get(class_name)
                     if obj_class is not None:
-                        FileStorage.__objects[key] = obj_class(**value)
+                        FileStorage.__objects[key] = obj_class(**value)i
+
+    def delete(self, obj=None):
+        """
+        This method delete obj from __objects if it exist.
+        or does nothing if obj = None
+        """
+        if obj is not None:
+            my_key = ("{}.{}".format(obj.__class__.__name__, obj.id))
+            if key in self.__objects:
+                del my_key
