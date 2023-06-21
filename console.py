@@ -157,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
             for key, value in storage.all().items():
                 my_print_list.append(str(value))
         print(my_print_list)
-
+        
     def do_update(self, arg):
         """
         Updates an instance based on the class name and id by adding or
