@@ -5,11 +5,12 @@ import models
 from models.base_model import BaseModel
 
 
-class City(BaseModel):
+class City(BaseModel, Base):
     """class City inherit from BaseModel
     Arguments:
         state_id = string - empty string: it will be the State.id
         name = string - empty string
     """
-    state_id = ""
-    name = ""
+    __tablename__ = 'cities'
+    name = Column(string(128), nullable=False)
+    state_id = Column(String(60), ForeignKey(States.id), nullable=False)

@@ -4,20 +4,24 @@
 from uuid import uuid4
 import datetime
 import models
-from sqlalchemy import create_engine, String, Integer, Column
-from sqlalchemy import DateTime, ForeignKey
+from sqlalchemy import create_engine, String, Column, DateTime, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-db_engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}', pool_pre_ping=True)
+db_engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}',
+                          pool_pre_ping=True)
 Base = declarative_base()
+
 
 class BaseModel:
     """This is basemodel class"""
-    # id = str(uuid4())
-    # # created_at = datetime.datetime.now()
-    # # updated_at = datetime.datetime.now()
+
+    id = Column(String(60), nullable=False, primary_key=True)
+    created_at = Column(DateTime, nullable=False,
+                        default=datetime.datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False,
+                        default=datetime.datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Initialization of the instance
@@ -40,7 +44,6 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
-            models.storage.new(self)
 
     def __str__(self):
         """
@@ -55,7 +58,7 @@ class BaseModel:
         This updated the "updated_date" and saves it
         """
         self.updated_at = datetime.datetime.now()
-        models.storage.new(self)
+        # models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
@@ -69,37 +72,7 @@ class BaseModel:
         dict_temp_file["__class__"] = self.__class__.__name__
         return dict_temp_file
 
-
-if __name__ == "__main__":
-    # I added this so that I will not have to make the calls from
-    # test_base_model_dict.py
-    # or
-    # test_base_model.py
-
-    # #!/usr/bin/python3
-    # from models.base_model import BaseModel
-
-    my_model = BaseModel()
-    my_model.name = "My_First_Model"
-    my_model.my_number = 89
-
-    print(my_model.id)
-    print(my_model)
-    print(type(my_model.created_at))
-    print("-1-")
-    my_model_json = my_model.to_dict()
-    print(my_model_json)
-    print("JSON of my_model:")
-
-    for key in my_model_json.keys():
-        print("\t{}: ({}) - {}".format(key, type(my_model_json[key]),
-                                       my_model_json[key]))
-
-    print("-2-")
-    my_new_model = BaseModel(**my_model_json)
-    print(my_new_model.id)
-    print(my_new_model)
-    print(type(my_new_model.created_at))
-
-    print("--")
-    print(my_model is my_new_model)
+    def delete(self):
+        """This method delete the current instance from the storage
+        (models.storage) by calling the method"""
+        models.storage.delete(self)

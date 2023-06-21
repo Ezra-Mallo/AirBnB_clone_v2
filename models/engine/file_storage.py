@@ -92,4 +92,3 @@ class FileStorage:
             class_instance = self.__objects
             if instance_Key in class_instance:
                 del class_instance[instance_Key]
-
