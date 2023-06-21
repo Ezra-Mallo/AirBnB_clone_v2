@@ -5,8 +5,8 @@ from models import storage
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
-from models.city import City
 from models.place import Place
+from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import re
@@ -102,6 +102,7 @@ class HBNBCommand(cmd.Cmd):
 
             instance_Key = "{}.{}".format(class_name, instance_id)
             class_instance = storage.all()
+
 
             if instance_Key in class_instance:
                 print(class_instance[instance_Key])
@@ -199,26 +200,24 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-#    def all(self, line):
-#        """all method up be called by default,
-#        parses the regex and run if it matches.
-#        """
-#        print("I am here")
-#        my_re = r"({})?\.?(all\(\))?".format("|".join(self.model_dict.keys()))
-#        regex = re.compile(my_re)
-#        model, cond = regex.search(line).groups()
-#        if not cond:
-#            return False
-#        if cond and model in self.model_dict.keys():
-#            result = storage.all()
-#            for k, v in result.items():
-#                if k.split(".")[0] == model:
-#                    print(v)
-#            return True
-#        else:
-#            print("** class doesn't exist **")
-#            return True
-
+    def all(self, line):
+        """    parses the regex and run if it matches.
+        """
+        print("I am here")
+        my_re = r"({})?\.?(all\(\))?".format("|".join(self.model_dict.keys()))
+        regex = re.compile(my_re)
+        model, cond = regex.search(line).groups()
+        if not cond:
+            return False
+        if cond and model in self.model_dict.keys():
+            result = storage.all()
+            for k, v in result.items():
+                if k.split(".")[0] == model:
+                    print(v)
+            return True
+        else:
+            print("** class doesn't exist **")
+            return True
 
 if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+    BNBCommand().cmdloop()

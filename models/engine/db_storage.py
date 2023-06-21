@@ -1,32 +1,37 @@
 #!/usr/bin/python3
 """New engine DBStorage: (models/engine/db_storage.py)"""
-import os
-import sqlalchemy
-from sqlalchemy import create_engine, 
+from sqlalchemy.engine import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+from os import environ
+
+from models.base_model import Base
+from models.user import User
+from models.state import State
+from models.place import Place
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+
 
 class DBStorage:
     """This it is the DBStorage class"""
     __engine = ""
     __session = ""
-
-    classes = {
-        'State': State,
-        'City': City,
-        'Place': Place,
-        'Review': Review,
-        'User': User,
-        'Amenity': Amenity
-    }
+    __classes = {"User": User, "State": State,
+                 "Place": Place, "City": City, "Amenity": Amenity,
+                 "Review": Review}
 
     def __init__(self):
         """Initialization"""
-        user = os.environ.get(HBNB_MYSQL_USER)
-        pswd = os.environ.get(HBNB_MYSQL_PWD)
-        host = os.environ.get(HBNB_MYSQL_HOST)
-        dbse: os.environ.get(HBNB_MYSQL_DB)
-        env_var = os.environ.get(HBNB_ENV)
+        user = environ.get("HBNB_MYSQL_USER")
+        pswd = environ.get("HBNB_MYSQL_PWD")
+        host = 'localhost'  # environ.get("HBNB_MYSQL_HOST")
+        dbse = environ.get("HBNB_MYSQL_DB")
+        env_var = environ.get("HBNB_ENV")
 
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+        print(user, pswd,host,dbse,env_var)
+
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
                                   format(user, pswd, host, dbse),
                                   pool_pre_ping=True)
 
