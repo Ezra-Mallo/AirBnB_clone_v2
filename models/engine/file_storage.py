@@ -80,7 +80,7 @@ class FileStorage:
                     class_ID = split_result[1]
                     obj_class = FileStorage.__classes.get(class_name)
                     if obj_class is not None:
-                        FileStorage.__objects[key] = obj_class(**value)i
+                        FileStorage.__objects[key] = obj_class(**value)
 
     def delete(self, obj=None):
         """
@@ -88,6 +88,8 @@ class FileStorage:
         or does nothing if obj = None
         """
         if obj is not None:
-            my_key = ("{}.{}".format(obj.__class__.__name__, obj.id))
-            if key in self.__objects:
-                del my_key
+            instance_Key = ("{}.{}".format(obj.__class__.__name__, obj.id))
+            class_instance = self.__objects
+            if instance_Key in class_instance:
+                del class_instance[instance_Key]
+
