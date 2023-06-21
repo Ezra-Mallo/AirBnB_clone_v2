@@ -1,6 +1,6 @@
 <h1 align="center">0x02. AirBnB clone - MySQL.</h1>
 <p align="center">
-<img src="https://github.com/Ezra-Mallo/AirBnB_clone_v1/blob/master/images_logos/hbnb_logo.png"
+<img src="https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/images_logos/hbnb_logo.png"
 	    alt="ALX_AirBnB logo">
 </p>
 
@@ -9,10 +9,10 @@ This is the third step towards building our first full web application: the AirB
 We shall modify our command interpreter, create database and link all our objects up. All these are still at the backend of this project.
 
 
-<img src="https://github.com/Ezra-Mallo/AirBnB_clone_v1/blob/master/images_logos/hbnb_stack.png"
+<img src="https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/images_logos/hbnb_stack.png"
 	    alt="ALX_AirBnB logo">
 </p>
-<img src="https://github.com/Ezra-Mallo/AirBnB_clone_v1/blob/master/images_logos/hbnb_db_structural_design.jpg"
+<img src="https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/images_logos/hbnb_db_structural_design.jpg"
 	    alt="ALX_AirBnB DB structural Design">
 </p>
 ### Functionalities of this command interpreter:
