@@ -4,7 +4,14 @@
 from uuid import uuid4
 import datetime
 import models
+from sqlalchemy import create_engine, String, Interger, Column, PrimaryKey
+from sqlalchemy import ForeignKey, DateTime
+from sqlalchemy.orm sessionmaker, relationship
+from sqlalchemy.ext.declarative dedclarative_base
 
+
+db_engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}', poop_pre_ping=True)
+Base =declarative_base()
 
 class BaseModel:
     """This is basemodel class"""
