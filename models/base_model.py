@@ -1,13 +1,10 @@
 #!/usr/bin/python3
 """Basemodel class is defined here"""
-
-from uuid import uuid4
-import datetime
 import models
-from sqlalchemy import create_engine, String, Column, DateTime, ForeignKey
-from sqlalchemy.orm import sessionmaker
+import datetime
+from uuid import uuid4
+from sqlalchemy import create_engine, String, Column, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-
 
 db_engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}',
                           pool_pre_ping=True)
@@ -19,9 +16,9 @@ class BaseModel:
 
     id = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False,
-                        default=datetime.datetime.utcnow())
+                        default=datetime.datetime.now())
     updated_at = Column(DateTime, nullable=False,
-                        default=datetime.datetime.utcnow())
+                        default=datetime.datetime.now())
 
     def __init__(self, *args, **kwargs):
         """Initialization of the instance
@@ -58,7 +55,7 @@ class BaseModel:
         This updated the "updated_date" and saves it
         """
         self.updated_at = datetime.datetime.now()
-        # models.storage.new(self)
+        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
@@ -66,11 +63,21 @@ class BaseModel:
         This returns a dictionary containing all keys/values
         of __dict__ of the instance:
         """
+        """
         dict_temp_file = self.__dict__.copy()
         dict_temp_file["created_at"] = self.created_at.isoformat()
         dict_temp_file["updated_at"] = self.updated_at.isoformat()
         dict_temp_file["__class__"] = self.__class__.__name__
-        return dict_temp_file
+        return dict_temp_file"""
+        dictionary = {}
+        dictionary.update(self.__dict__)
+        dictionary.update({'__class__':
+                          (str(type(self)).split('.')[-1]).split('\'')[0]})
+        dictionary['created_at'] = self.created_at.isoformat()
+        dictionary['updated_at'] = self.updated_at.isoformat()
+        if "_sa_instance_state" in dictionary:
+            del dictionary["_sa_instance_state"]
+        return dictionary
 
     def delete(self):
         """This method delete the current instance from the storage

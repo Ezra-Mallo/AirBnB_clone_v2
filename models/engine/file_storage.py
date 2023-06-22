@@ -1,14 +1,6 @@
 #!/usr/bin/python3
 
 import json
-import os
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.place import Place
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
 
 
 class FileStorage:
@@ -22,10 +14,7 @@ class FileStorage:
     """
     __file_path = "file.json"
     __objects = {}
-    __classes = {"BaseModel": BaseModel, "User": User, "State": State,
-                 "Place": Place, "City": City, "Amenity": Amenity,
-                 "Review": Review}
-                 
+
     def __init__(self):
         """Initialization"""
         pass
@@ -62,19 +51,37 @@ class FileStorage:
         """deserializes the JSON file to __objects
         (only if the JSON file (__file_path) exists; otherwise, do nothing.
         If the file doesn’t exist, no exception should be raised)"""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
 
+        __classes = {"BaseModel": BaseModel, "User": User, "State": State,
+                     "Place": Place, "City": City, "Amenity": Amenity,
+                     "Review": Review}
         # Error check when file.json does not exist.
-        if os.path.exists(FileStorage.__file_path):
-            # with open(self.__file_path, "r", encoding="utf-8") as myFile:
-            with open(FileStorage.__file_path, "r", encoding="utf-8") as myFil:
+        # if os.path.exists(FileStorage.__file_path):
+        #     # with open(self.__file_path, "r", encoding="utf-8") as myFile:
+        #   with open(FileStorage.__file_path, "r", encoding="utf-8") as myFil:
+        #         my_reload_dict = json.load(myFil)
+        #         for key, value in my_reload_dict.items():
+        #             split_result = key.split(".")
+        #             class_name = split_result[0]
+        #             class_ID = split_result[1]
+        #             obj_class = FileStorage.__classes.get(class_name)
+        #             if obj_class is not None:
+        #                 FileStorage.__objects[key] = obj_class(**value)
+        try:
+            my_reload_dict = {}
+            with open(FileStorage.__file_path, "r") as myFil:
                 my_reload_dict = json.load(myFil)
-                for key, value in my_reload_dict.items():
-                    split_result = key.split(".")
-                    class_name = split_result[0]
-                    class_ID = split_result[1]
-                    obj_class = FileStorage.__classes.get(class_name)
-                    if obj_class is not None:
-                        FileStorage.__objects[key] = obj_class(**value)
+                for key, val in my_reload_dict.items():
+                    self.all()[key] = __classes[val['__class__']](**val)
+        except FileNotFoundError:
+            pass
 
     def delete(self, obj=None):
         """
@@ -86,3 +93,17 @@ class FileStorage:
             class_instance = self.__objects
             if instance_Key in class_instance:
                 del class_instance[instance_Key]
+
+    @classmethod
+    def set_path(cls, file_path: str):
+        """To change the save file path."""
+        cls.__file_path = file_path
+
+    @classmethod
+    def new_object(cls):
+        """Object storage."""
+        cls.__objects = {}
+
+    def close(self):
+        """Deserialize json file file to objects."""
+        self.reload()

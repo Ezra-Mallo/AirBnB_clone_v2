@@ -12,6 +12,12 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+user = environ.get("HBNB_MYSQL_USER")
+pswd = environ.get("HBNB_MYSQL_PWD")
+host = environ.get("HBNB_MYSQL_HOST")
+dbse = environ.get("HBNB_MYSQL_DB")
+env_var = environ.get("HBNB_ENV")
+
 
 class DBStorage:
     """This it is the DBStorage class"""
@@ -23,17 +29,9 @@ class DBStorage:
 
     def __init__(self):
         """Initialization"""
-        user = environ.get("HBNB_MYSQL_USER")
-        pswd = environ.get("HBNB_MYSQL_PWD")
-        host = 'localhost'  # environ.get("HBNB_MYSQL_HOST")
-        dbse = environ.get("HBNB_MYSQL_DB")
-        env_var = environ.get("HBNB_ENV")
 
-        print(user, pswd,host,dbse,env_var)
-
-        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
-                                  format(user, pswd, host, dbse),
-                                  pool_pre_ping=True)
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
+            user, pswd, host, dbse), pool_pre_ping=True)
 
         if env_var == "test":
             Base.metadata.delete_all()
@@ -60,11 +58,21 @@ class DBStorage:
         self.__session.add(obj)
 
     def save(self):
-        """commit all changes of the current database session (self.__session)"""
+        """commit all changes of the current database session"""
         self.__session.commit()
 
     def delete(self, obj=None):
         """delete from the current database session obj if not None"""
+        """
+        if obj is None:
+            pass
+        else:
+            [cname, o_id] = obj.split(".")
+            cls = self.classes[cname]
+            t_obj = self.__session.query(cls).filter(
+                cls.id == o_id).one_or_none()
+            if t_obj is not None:
+                self.__session.delete(t_obj)"""
         if obj is not None:
             self.__session.delete(obj)
 
@@ -75,4 +83,8 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         new_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(new_session)
-        self.__session = Session()
+        selif.__session = Session()
+
+    def close(self):
+        """Close session probably."""
+        self.__session.close()

@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
-"""
-Module for initializing storage engine
-"""
+#!/usr/bin/python3
+""" using environmental variable to know which storage method to user"""
 
 from models.engine.file_storage import FileStorage
 from models.engine.db_storage import DBStorage

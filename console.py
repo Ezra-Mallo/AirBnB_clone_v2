@@ -1,20 +1,45 @@
 #!/usr/bin/env python3
-
 import cmd
-from models import storage
+import sys
 from models.base_model import BaseModel
+from models import storage
 from models.user import User
-from models.state import State
 from models.place import Place
+from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import re
+import os
+
+
+def tokenize(args: str) -> list:
+    """Tokenizer.
+    Args:
+        args (str): Description
+
+    Returns:
+        list: Description
+    """
+    pattern = r"^(?P<name>[A-Za-z0-9]+)"
+    param_pattern = r"(?P<params>\w+=(\"[^\"]+\"|[\d\.-]+))"
+
+    class_validator = re.compile(pattern)
+    params_validator = re.compile(param_pattern)
+
+    token = []
+
+    obj_class = class_validator.findall(args)
+    obj_param = params_validator.findall(args)
+
+    if len(obj_class) != 0:
+        token.append(obj_class[0])
+    token.append([data[0] for data in obj_param])
+    return token
 
 
 class HBNBCommand(cmd.Cmd):
-    """
-    This class is the entry point of the command interpreter."""
+    """This class is the entry point of the command interpreter."""
 
     # intro = 'Welcome to hbnb shell.'
     prompt = "(hnbn) "
@@ -34,11 +59,29 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program"""
         return True
 
-# ----------------------------------------------------------------------------
     def do_create(self, arg):
         """
         Creates a new instance of BaseModel, saves it (to JSON file) and
         prints the id. Ex: $ create BaseModel"""
+
+        tokens = tokenize(arg)
+        # check if args passed
+        if arg == "" or len(tokens) < 2:
+            print("** class name missing **")
+            return
+        # extract the class name
+        class_name = tokens[0]
+        # extract all params
+        params = tokens[1]
+
+        # if class not in class
+        if class_name not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+            return
+        # create a new class instance
+        new_instance = HBNBCommand.__classes[class_name]()
+        # loop through all params and setattr to the object instance
+# ------------------------------------------------------------------------------
         if len(arg) == 0:
             """ Check if argument was passed"""
             print("** class name missing **")
@@ -80,34 +123,30 @@ class HBNBCommand(cmd.Cmd):
                         setattr(instance_pointer, key, value)
                     storage.save()
 
-# ----------------------------------------------------------------------------
-
     def do_show(self, arg):
         """
         Prints the string representation of an instance based on the
         class name and id. Ex: $ show BaseModel 1234-1234-1234."""
 
-        myArgs = arg.split()
-        if len(myArgs) == 0:
+        if len(arg) == 0:
             """ Check if argument was passed"""
             print("** class name missing **")
-        elif myArgs[0] not in HBNBCommand.__classes:
-            """ Check if class name argument was passed"""
-            print("** class doesn't exist ** ")
-        elif len(myArgs) < 2:
-            print("** instance id missing **")
         else:
-            class_name = myArgs[0]
-            instance_id = myArgs[1]
-
-            instance_Key = "{}.{}".format(class_name, instance_id)
-            class_instance = storage.all()
-
-
-            if instance_Key in class_instance:
-                print(class_instance[instance_Key])
+            myArgs = arg.split()
+            if myArgs[0] not in HBNBCommand.__classes:
+                """ Check if class name argument was passed"""
+                print("** class doesn't exist ** ")
+            elif len(myArgs) < 2:
+                print("** instance id missing **")
             else:
-                print("** no instance found **")
+                class_name = myArgs[0]
+                instance_id = myArgs[1]
+                instance_Key = "{}.{}".format(class_name, instance_id)
+                class_instance = storage.all()
+                if instance_Key in class_instance:
+                    print(class_instance[instance_Key])
+                else:
+                    print("** no instance found **")
 
     def do_destroy(self, arg):
         """
@@ -200,24 +239,24 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-    def all(self, line):
-        """    parses the regex and run if it matches.
-        """
-        print("I am here")
-        my_re = r"({})?\.?(all\(\))?".format("|".join(self.model_dict.keys()))
-        regex = re.compile(my_re)
-        model, cond = regex.search(line).groups()
-        if not cond:
-            return False
-        if cond and model in self.model_dict.keys():
-            result = storage.all()
-            for k, v in result.items():
-                if k.split(".")[0] == model:
-                    print(v)
-            return True
-        else:
-            print("** class doesn't exist **")
-            return True
+#    def all(self, line):
+#        """    parses the regex and run if it matches.
+#        """
+#        my_re = r"({})?\.?(all\(\))?".format("|".join(self.model_dict.keys()))
+#        regex = re.compile(my_re)
+#        model, cond = regex.search(line).groups()
+#        if not cond:
+#            return False
+#        if cond and model in self.model_dict.keys():
+#            result = storage.all()
+#            for k, v in result.items():
+#                if k.split(".")[0] == model:
+#                    print(v)
+#            return True
+#        else:
+#            print("** class doesn't exist **")
+#            return True
+
 
 if __name__ == '__main__':
-    BNBCommand().cmdloop()
+    HBNBCommand().cmdloop()
