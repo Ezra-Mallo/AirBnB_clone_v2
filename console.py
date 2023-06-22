@@ -62,24 +62,21 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # create a new class instance if myAarg[1] is blank
-        if len(myArgs[1]) == 0:
-            new_instance = HBNBCommand.__classes[myArgs[0]]()
-        else:
-            new_instance = HBNBCommand.__classes[myArgs[0]]()
-            # loop through all params and setattr to the object instance
-            for my_Arg in myArgs[1]:
-                try:
-                    key, value = my_Arg.split("=")
-                    value = value.replace("_", " ")
-                    if value[0] == '"' and value[-1] == '"' and len(value) > 1:
-                        value = value[1:-1]
-                    elif "." in value:
-                        value = float(value)
-                    else:
-                        value = int(value)
+        new_instance = HBNBCommand.__classes[myArgs[0]]()
+        # loop through all params and setattr to the object instance
+        for my_Arg in myArgs[1]:
+            try:
+                key, value = my_Arg.split("=")
+                value = value.replace("_", " ")
+                if value[0] == '"' and value[-1] == '"' and len(value) > 1:
+                    value = value[1:-1]
+                elif "." in value:
+                    value = float(value)
+                else:
+                    value = int(value)
                     setattr(new_instance, key, value)
-                except ValueError:
-                    continue
+            except ValueError:
+                continue
         new_instance.save()
         print(new_instance.id)
         storage.save()
