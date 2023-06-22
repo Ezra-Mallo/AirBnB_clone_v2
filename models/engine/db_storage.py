@@ -83,7 +83,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         new_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(new_session)
-        selif.__session = Session()
+        self.__session = Session()
 
     def close(self):
         """Close session probably."""
