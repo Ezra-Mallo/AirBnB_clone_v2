@@ -61,13 +61,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         # create a new class instance if myAarg[1] is blank
-        elif len(myArgs[1]) > 2:
-            new_instance = HBNBCommand.__classes[myArgs[0]]()
-            storage.new(new_instance)
-            storage.save()
-            print(new_instance.id)
-            return False
-        # new_instance = HBNBCommand.__classes[myArgs[0]]()
+        new_instance = HBNBCommand.__classes[myArgs[0]]()
 
         # loop through all params and setattr to the object instance
         for my_Arg in myArgs[1]:
