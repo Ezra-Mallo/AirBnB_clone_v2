@@ -39,9 +39,16 @@ class HBNBCommand(cmd.Cmd):
         Creates a new instance of BaseModel, saves it (to JSON file) and
         prints the id. Ex: $ create BaseModel
         """
+        # check if args passed
+        if arg == "":
+            print("** class name missing **")
+            return
 # ----------------------------------------------------------------------------
-        class_validator = re.compile(r"^(?P<name>[A-Za-z0-9]+)")
-        params_validator = re.compile(r"(?P<params>\w+=(\"[^\"]+\"|[\d\.-]+))")
+        pattern = r"^(?P<name>[A-Za-z0-9]+)"
+        param_pattern = r"(?P<params>\w+=(\"[^\"]+\"|[\d\.-]+))"
+
+        class_validator = re.compile(pattern)
+        params_validator = re.compile(param_pattern)
 
         obj_class = class_validator.findall(arg)
         obj_param = params_validator.findall(arg)
@@ -52,15 +59,10 @@ class HBNBCommand(cmd.Cmd):
             myArgs.append(obj_class[0])
         myArgs.append([data[0] for data in obj_param])
 # ----------------------------------------------------------------------------
-        # check if args passed
-        if arg == "" or len(myArgs[1]) < 2:
-            print("** class name missing **")
-            return
         # if class not in class
         if myArgs[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return
-
         # create a new class instance if myAarg[1] is blank
         new_instance = HBNBCommand.__classes[myArgs[0]]()
         # loop through all params and setattr to the object instance
