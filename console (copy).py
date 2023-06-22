@@ -13,6 +13,30 @@ import re
 import os
 
 
+def tokenize(args: str) -> list:
+    """Tokenizer.
+    Args:
+        args (str): Description
+
+    Returns:
+        list: Description
+    """
+    pattern = r"^(?P<name>[A-Za-z0-9]+)"
+    param_pattern = r"(?P<params>\w+=(\"[^\"]+\"|[\d\.-]+))"
+
+    class_validator = re.compile(pattern)
+    params_validator = re.compile(param_pattern)
+
+    obj_class = class_validator.findall(args)
+    obj_param = params_validator.findall(args)
+
+    if len(obj_class) != 0:
+        token.append(obj_class[0])
+    token.append([data[0] for data in obj_param])
+    print(token)
+    return token
+
+
 class HBNBCommand(cmd.Cmd):
     """This class is the entry point of the command interpreter."""
 
@@ -37,56 +61,84 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """
         Creates a new instance of BaseModel, saves it (to JSON file) and
-        prints the id. Ex: $ create BaseModel
-        """
-# ----------------------------------------------------------------------------
-        class_validator = re.compile(r"^(?P<name>[A-Za-z0-9]+)")
-        params_validator = re.compile(r"(?P<params>\w+=(\"[^\"]+\"|[\d\.-]+))")
+        prints the id. Ex: $ create BaseModel"""
 
-        obj_class = class_validator.findall(arg)
-        obj_param = params_validator.findall(arg)
-
-        myArgs = []
-
-        if len(obj_class) != 0:
-            myArgs.append(obj_class[0])
-        myArgs.append([data[0] for data in obj_param])
-# ----------------------------------------------------------------------------
+        print(arg)
+        print("------------------------------------\n")
+        tokens = tokenize(arg)
+        raise SystemExit
         # check if args passed
-        if arg == "" or len(myArgs[1]) < 2:
+        if arg == "" or len(tokens) < 2:
             print("** class name missing **")
             return
+        # extract the class name
+        class_name = tokens[0]
+        # extract all params
+        params = tokens[1]
+
         # if class not in class
-        if myArgs[0] not in HBNBCommand.__classes:
+        if class_name not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return
-        # create a new class instance if myAarg[1] is blank
-        elif len(myArgs[1]) > 2:
-            new_instance = HBNBCommand.__classes[myArgs[0]]()
-            storage.new(new_instance)
-            storage.save()
-            print(new_instance.id)
-            return False
-        # new_instance = HBNBCommand.__classes[myArgs[0]]()
-
+        # create a new class instance
+        new_instance = HBNBCommand.__classes[class_name]()
         # loop through all params and setattr to the object instance
-        for my_Arg in myArgs[1]:
+        for param in params:
             try:
-                key, value = my_Arg.split("=")
-                value = value.replace("_", " ")
-                if value[0] == '"' and value[-1] == '"' and len(value) > 1:
-                    value = value[1:-1]
-                elif "." in value:
-                    value = float(value)
+                k, v = param.split("=")
+                v = v.replace("_", " ")
+                if v[0] == '"' and v[-1] == '"' and len(v) > 1:
+                    v = v[1:-1]
+                elif "." in v:
+                    v = float(v)
                 else:
-                    value = int(value)
-                setattr(new_instance, key, value)
+                    v = int(v)
+                setattr(new_instance, k, v)
             except ValueError:
                 continue
         new_instance.save()
         print(new_instance.id)
         storage.save()
 # ------------------------------------------------------------------------------
+"""        if len(arg) == 0:
+            "" Check if argument was passed""
+            print("** class name missing **")
+            return False
+        else:
+            # to split the arg and remove plant spaces
+            myArgs = re.split(' ', arg)
+            while '' in myArgs:
+                myArgs.remove('')
+
+            # convet to dictionary & clean the values up starting from index 1
+            if myArgs[0] not in HBNBCommand.__classes:
+                "" Check if class name argument was passed""
+                print("** class doesn't exist **")
+                return False
+            elif len(myArgs) == 1:
+                new_instance = HBNBCommand.__classes[myArgs[0]]()
+                storage.new(new_instance)
+                storage.save()
+                print(new_instance.id)
+                return False
+            elif len(myArgs) >= 3:
+                new_instance = HBNBCommand.__classes[myArgs[0]]()
+                for my_Arg in myArgs[1:]:
+                    try:
+                        key, val = my_Arg.split("=")
+                        val= val.replace("_", " ")
+                        if val[0] == '"' and val[-1] == '"' and len(val) > 1:
+                            val = val[1:-1]
+                        elif "." in val:
+                            val = float(val)
+                        else:
+                            val = int(val)
+                        setattr(new_instance, key, val)
+                    except ValueError:
+                        continue
+                raise SystemExit
+                storage.save()
+                """
 
     def do_show(self, arg):
         """Prints the string representation of an instance based on the
