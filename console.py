@@ -12,9 +12,9 @@ from models.review import Review
 import re
 import os
 
-
 def tokenize(args: str) -> list:
     """Tokenizer.
+
     Args:
         args (str): Description
 
@@ -35,7 +35,6 @@ def tokenize(args: str) -> list:
     if len(obj_class) != 0:
         token.append(obj_class[0])
     token.append([data[0] for data in obj_param])
-    print(token)
     return token
 
 
@@ -63,12 +62,10 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """
         Creates a new instance of BaseModel, saves it (to JSON file) and
-        prints the id. Ex: $ create BaseModel"""
-
-        print(arg)
-        print("------------------------------------\n")
+        prints the id. Ex: $ create BaseModel
+        """
+        # Tokenize the args from the console
         tokens = tokenize(arg)
-
         # check if args passed
         if arg == "" or len(tokens) < 2:
             print("** class name missing **")
@@ -79,11 +76,11 @@ class HBNBCommand(cmd.Cmd):
         params = tokens[1]
 
         # if class not in class
-        if class_name not in HBNBCommand.__classes:
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
         # create a new class instance
-        new_instance = HBNBCommand.__classes[class_name]()
+        new_instance = HBNBCommand.classes[class_name]()
         # loop through all params and setattr to the object instance
         for param in params:
             try:
@@ -101,6 +98,7 @@ class HBNBCommand(cmd.Cmd):
         new_instance.save()
         print(new_instance.id)
         storage.save()
+
 # ------------------------------------------------------------------------
 
     def do_show(self, arg):
