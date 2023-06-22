@@ -64,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
         Creates a new instance of BaseModel, saves it (to JSON file) and
         prints the id. Ex: $ create BaseModel"""
 
-        tokens = tokenize(arg)
+        """tokens = tokenize(arg)
         # check if args passed
         if arg == "" or len(tokens) < 2:
             print("** class name missing **")
@@ -96,48 +96,48 @@ class HBNBCommand(cmd.Cmd):
                 continue
         new_instance.save()
         print(new_instance.id)
-        storage.save()
+        storage.save()"""
 # ------------------------------------------------------------------------------
-#        if len(arg) == 0:
-#            """ Check if argument was passed"""
-#            print("** class name missing **")
-#            return False
-#        else:
-#            # to split the arg and remove plant spaces
-#            myArgs = re.split(' |=|"', arg)
-#            while '' in myArgs:
-#                myArgs.remove('')
-#            print(myArgs)
-#            if myArgs[0] not in HBNBCommand.__classes:
-#                """ Check if class name argument was passed"""
-#                print("** class doesn't exist **")
-#                return False
+        if len(arg) == 0:
+            """ Check if argument was passed"""
+            print("** class name missing **")
+            return False
+        else:
+            # to split the arg and remove plant spaces
+            myArgs = re.split(' |=|"', arg)
+            while '' in myArgs:
+                myArgs.remove('')
+            print(myArgs)
+            if myArgs[0] not in HBNBCommand.__classes:
+                """ Check if class name argument was passed"""
+                print("** class doesn't exist **")
+                return False
 
-#            elif len(myArgs) == 1:
-#                new_instance = HBNBCommand.__classes[myArgs[0]]()
-#                storage.new(new_instance)
-#                storage.save()
-#                print(new_instance.id)
-#                return False
-#            elif len(myArgs) >= 3:
-#                new_instance = HBNBCommand.__classes[myArgs[0]]()
-#                storage.new(new_instance)
-#                storage.save()
-#                print(new_instance.id)
-#                class_name = myArgs[0]
-#                instance_id = new_instance.id
-#
-#                attributes = {}
-#                for number in range(1, len(myArgs), 2):
-#                    attributes[myArgs[number]] = myArgs[number + 1]
-#
-#                instance_Key = "{}.{}".format(class_name, instance_id)
-#                Class_Instance = storage.all()
-#                if instance_Key in Class_Instance.keys():
-#                    instance_pointer = Class_Instance[instance_Key]
-#                    for key, value in attributes.items():
-#                        setattr(instance_pointer, key, value)
-#                    storage.save()
+            elif len(myArgs) == 1:
+                new_instance = HBNBCommand.__classes[myArgs[0]]()
+                storage.new(new_instance)
+                storage.save()
+                print(new_instance.id)
+                return False
+            elif len(myArgs) >= 3:
+                new_instance = HBNBCommand.__classes[myArgs[0]]()
+                storage.new(new_instance)
+                storage.save()
+                print(new_instance.id)
+                class_name = myArgs[0]
+                instance_id = new_instance.id
+
+                attributes = {}
+                for number in range(1, len(myArgs), 2):
+                    attributes[myArgs[number]] = myArgs[number + 1]
+
+                instance_Key = "{}.{}".format(class_name, instance_id)
+                Class_Instance = storage.all()
+                if instance_Key in Class_Instance.keys():
+                    instance_pointer = Class_Instance[instance_Key]
+                    for key, value in attributes.items():
+                        setattr(instance_pointer, key, value)
+                    storage.save()
 
     def do_show(self, arg):
         """
