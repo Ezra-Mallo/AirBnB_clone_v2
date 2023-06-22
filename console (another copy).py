@@ -11,8 +11,6 @@ from models.amenity import Amenity
 from models.review import Review
 import re
 import os
-
-
 def tokenize(args: str) -> list:
     """Tokenizer.
     Args:
@@ -28,6 +26,7 @@ def tokenize(args: str) -> list:
     params_validator = re.compile(param_pattern)
 
     obj_class = class_validator.findall(args)
+    token = []
     obj_param = params_validator.findall(args)
 
     if len(obj_class) != 0:
@@ -35,6 +34,7 @@ def tokenize(args: str) -> list:
     token.append([data[0] for data in obj_param])
     print(token)
     return token
+
 
 
 class HBNBCommand(cmd.Cmd):
@@ -61,12 +61,9 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """
         Creates a new instance of BaseModel, saves it (to JSON file) and
-        prints the id. Ex: $ create BaseModel"""
-
-        print(arg)
-        print("------------------------------------\n")
+        prints the id. Ex: $ create BaseModel
+        """
         tokens = tokenize(arg)
-        raise SystemExit
         # check if args passed
         if arg == "" or len(tokens) < 2:
             print("** class name missing **")
@@ -98,47 +95,8 @@ class HBNBCommand(cmd.Cmd):
                 continue
         new_instance.save()
         print(new_instance.id)
-        storage.save()
+        storage.save()        
 # ------------------------------------------------------------------------------
-"""        if len(arg) == 0:
-            "" Check if argument was passed""
-            print("** class name missing **")
-            return False
-        else:
-            # to split the arg and remove plant spaces
-            myArgs = re.split(' ', arg)
-            while '' in myArgs:
-                myArgs.remove('')
-
-            # convet to dictionary & clean the values up starting from index 1
-            if myArgs[0] not in HBNBCommand.__classes:
-                "" Check if class name argument was passed""
-                print("** class doesn't exist **")
-                return False
-            elif len(myArgs) == 1:
-                new_instance = HBNBCommand.__classes[myArgs[0]]()
-                storage.new(new_instance)
-                storage.save()
-                print(new_instance.id)
-                return False
-            elif len(myArgs) >= 3:
-                new_instance = HBNBCommand.__classes[myArgs[0]]()
-                for my_Arg in myArgs[1:]:
-                    try:
-                        key, val = my_Arg.split("=")
-                        val= val.replace("_", " ")
-                        if val[0] == '"' and val[-1] == '"' and len(val) > 1:
-                            val = val[1:-1]
-                        elif "." in val:
-                            val = float(val)
-                        else:
-                            val = int(val)
-                        setattr(new_instance, key, val)
-                    except ValueError:
-                        continue
-                raise SystemExit
-                storage.save()
-                """
 
     def do_show(self, arg):
         """Prints the string representation of an instance based on the
