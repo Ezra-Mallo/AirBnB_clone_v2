@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """class User is defined here to inherit from BaseModel"""
 import models
-from models.base_model import BaseModel, BaseModel
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
