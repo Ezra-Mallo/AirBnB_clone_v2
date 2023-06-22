@@ -2,6 +2,14 @@
 
 import json
 
+from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+
 
 class FileStorage:
     """
@@ -14,6 +22,9 @@ class FileStorage:
     """
     __file_path = "file.json"
     __objects = {}
+    __classes = {"BaseModel": BaseModel, "User": User, "State": State,
+                 "Place": Place, "City": City, "Amenity": Amenity,
+                 "Review": Review}
 
     def __init__(self):
         """Initialization"""
@@ -51,17 +62,6 @@ class FileStorage:
         """deserializes the JSON file to __objects
         (only if the JSON file (__file_path) exists; otherwise, do nothing.
         If the file doesn’t exist, no exception should be raised)"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
-
-        __classes = {"BaseModel": BaseModel, "User": User, "State": State,
-                     "Place": Place, "City": City, "Amenity": Amenity,
-                     "Review": Review}
         # Error check when file.json does not exist.
         # if os.path.exists(FileStorage.__file_path):
         #     # with open(self.__file_path, "r", encoding="utf-8") as myFile:
@@ -79,7 +79,7 @@ class FileStorage:
             with open(FileStorage.__file_path, "r") as myFil:
                 my_reload_dict = json.load(myFil)
                 for key, val in my_reload_dict.items():
-                    self.all()[key] = __classes[val['__class__']](**val)
+                    self.all()[key] = self.__classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
