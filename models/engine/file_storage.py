@@ -53,27 +53,11 @@ class FileStorage:
 
         with open(FileStorage.__file_path, "w", encoding="utf-8") as myFile:
             json.dump(my_temp_dict, myFile)
-        # with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
-        #     dict_value = {key: value.to_dict() for key,
-        #                   value in FileStorage.__objects.items()}
-        #     json.dump(dict_value, file)
 
     def reload(self):
         """deserializes the JSON file to __objects
         (only if the JSON file (__file_path) exists; otherwise, do nothing.
         If the file doesn’t exist, no exception should be raised)"""
-        # Error check when file.json does not exist.
-        # if os.path.exists(FileStorage.__file_path):
-        #     # with open(self.__file_path, "r", encoding="utf-8") as myFile:
-        #   with open(FileStorage.__file_path, "r", encoding="utf-8") as myFil:
-        #         my_reload_dict = json.load(myFil)
-        #         for key, value in my_reload_dict.items():
-        #             split_result = key.split(".")
-        #             class_name = split_result[0]
-        #             class_ID = split_result[1]
-        #             obj_class = FileStorage.__classes.get(class_name)
-        #             if obj_class is not None:
-        #                 FileStorage.__objects[key] = obj_class(**value)
         try:
             my_reload_dict = {}
             with open(FileStorage.__file_path, "r") as myFil:
