@@ -13,31 +13,6 @@ import re
 import os
 
 
-def tokenize(args: str) -> list:
-    """Tokenizer.
-    Args:
-        args (str): Description
-
-    Returns:
-        list: Description
-    """
-    pattern = r"^(?P<name>[A-Za-z0-9]+)"
-    param_pattern = r"(?P<params>\w+=(\"[^\"]+\"|[\d\.-]+))"
-
-    class_validator = re.compile(pattern)
-    params_validator = re.compile(param_pattern)
-
-    token = []
-
-    obj_class = class_validator.findall(args)
-    obj_param = params_validator.findall(args)
-
-    if len(obj_class) != 0:
-        token.append(obj_class[0])
-    token.append([data[0] for data in obj_param])
-    return token
-
-
 class HBNBCommand(cmd.Cmd):
     """This class is the entry point of the command interpreter."""
 
@@ -64,39 +39,6 @@ class HBNBCommand(cmd.Cmd):
         Creates a new instance of BaseModel, saves it (to JSON file) and
         prints the id. Ex: $ create BaseModel"""
 
-        """tokens = tokenize(arg)
-        # check if args passed
-        if arg == "" or len(tokens) < 2:
-            print("** class name missing **")
-            return
-        # extract the class name
-        class_name = tokens[0]
-        # extract all params
-        params = tokens[1]
-
-        # if class not in class
-        if class_name not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
-            return
-        # create a new class instance
-        new_instance = HBNBCommand.__classes[class_name]()
-        # loop through all params and setattr to the object instance
-        for param in params:
-            try:
-                k, v = param.split("=")
-                v = v.replace("_", " ")
-                if v[0] == '"' and v[-1] == '"' and len(v) > 1:
-                    v = v[1:-1]
-                elif "." in v:
-                    v = float(v)
-                else:
-                    v = int(v)
-                setattr(new_instance, k, v)
-            except ValueError:
-                continue
-        new_instance.save()
-        print(new_instance.id)
-        storage.save()"""
 # ------------------------------------------------------------------------------
         if len(arg) == 0:
             """ Check if argument was passed"""
@@ -104,15 +46,15 @@ class HBNBCommand(cmd.Cmd):
             return False
         else:
             # to split the arg and remove plant spaces
-            myArgs = re.split(' |=|"', arg)
+            myArgs = re.split(' ', arg)
             while '' in myArgs:
                 myArgs.remove('')
-            print(myArgs)
+
+            # convet to dictionary & clean the values up starting from index 1
             if myArgs[0] not in HBNBCommand.__classes:
                 """ Check if class name argument was passed"""
                 print("** class doesn't exist **")
                 return False
-
             elif len(myArgs) == 1:
                 new_instance = HBNBCommand.__classes[myArgs[0]]()
                 storage.new(new_instance)
@@ -121,23 +63,20 @@ class HBNBCommand(cmd.Cmd):
                 return False
             elif len(myArgs) >= 3:
                 new_instance = HBNBCommand.__classes[myArgs[0]]()
-                storage.new(new_instance)
+                for my_Arg in myArgs[1:]:
+                    try:
+                        key, value = my_Arg.split("=")
+                        value= value.replace("_", " ")
+                        if value[0] == '"' and value[-1] == '"' and len(value) > 1:
+                            value = value[1:-1]
+                        elif "." in value:
+                            value = float(value)
+                        else:
+                            value = int(value)
+                        setattr(new_instance, key, value)
+                    except ValueError:
+                        continue
                 storage.save()
-                print(new_instance.id)
-                class_name = myArgs[0]
-                instance_id = new_instance.id
-
-                attributes = {}
-                for number in range(1, len(myArgs), 2):
-                    attributes[myArgs[number]] = myArgs[number + 1]
-
-                instance_Key = "{}.{}".format(class_name, instance_id)
-                Class_Instance = storage.all()
-                if instance_Key in Class_Instance.keys():
-                    instance_pointer = Class_Instance[instance_Key]
-                    for key, value in attributes.items():
-                        setattr(instance_pointer, key, value)
-                    storage.save()
 
     def do_show(self, arg):
         """
