@@ -76,11 +76,11 @@ class HBNBCommand(cmd.Cmd):
         params = tokens[1]
 
         # if class not in class
-        if class_name not in HBNBCommand.classes:
+        if class_name not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return
         # create a new class instance
-        new_instance = HBNBCommand.classes[class_name]()
+        new_instance = HBNBCommand.__classes[class_name]()
         # loop through all params and setattr to the object instance
         for param in params:
             try:
