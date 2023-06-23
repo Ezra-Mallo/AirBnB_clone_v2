@@ -47,9 +47,9 @@ class DBStorage:
                 my_dict[key] = obj
         else:
             # to pick the specific item from the __classes
-            for item_cls in self.__classes.values():
-                for obj in self.__session.query(item_cls).all():
-                    key = "{}.{}".format(item_cls.__name__, obj.id)
+            for value in self.__classes.values():
+                for obj in self.__session.query(value).all():
+                    key = "{}.{}".format(value.__name__, obj.id)
                     my_dict[key] = obj
         return my_dict
 
