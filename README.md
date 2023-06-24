@@ -23,6 +23,19 @@ We shall modify our command interpreter, create database and link all our object
 * Update attributes of an object
 * Destroy an object
 
+
+## Resources read or watch:
+* [cmd module](https://docs.python.org/3/library/cmd.html)
+* packages concept page
+* [unittest module](https://docs.python.org/3/library/unittest.html#module-unittest)
+* [args/kwargs](https://yasoob.me/2013/08/04/args-and-kwargs-in-python-explained/)
+* [SQLAlchemy tutorial](https://docs.sqlalchemy.org/en/13/orm/tutorial.html)
+* [How To Create a New User and Grant Permissions in MySQL](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
+* [Python3 and environment variables](https://docs.python.org/3/library/os.html?highlight=env#os.getenv)
+* [SQLAlchemy](https://docs.sqlalchemy.org/en/13/)
+* [MySQL 8.0 SQL Statement Syntax](https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html)
+
+
 ## Table of Content
 * [Environment](#environment)
 * [Installation](#installation)
