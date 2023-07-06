@@ -25,8 +25,8 @@ alias_config=\
 "   location /hbnb_static {
 	alias /data/web_static/current;
 }"
-# sudo echo -e "$alias_config" | sudo tee -a /etc/nginx/sites-available/default
-sudo sed -i '39 i\ \tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n' /etc/nginx/sites-available/default
+sudo echo -e "$alias_config" | sudo tee -a /etc/nginx/sites-available/default
+# sudo sed -i '39 i\ \tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n' /etc/nginx/sites-available/default
 
 
 sudo service nginx start
