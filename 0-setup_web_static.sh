@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 # Install Nginx if it not already installed
-sudo apt-get update -y
-sudo apt-get install nginx -y
+sudo apt update -y
+sudo apt install nginx -y
 
-# create /data/web_static/releases/test/ if it does not exist
+# create the folders and path if it does not exist
 sudo mkdir -p /data/web_static/releases/test/
+sudo mkdir -p /data/web_static/shared/ 
 
 # create file with content if not exist
 file_path="/data/web_static/releases/test/index.html"
@@ -26,8 +27,6 @@ fi
 # change user:group ownership of /data/
 sudo chown -R ubuntu:ubuntu /data/
 
-# create folder if not exist
-sudo mkdir -p /data/web_static/shared/ 
 
 # create symbolic link for current if not exist
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
