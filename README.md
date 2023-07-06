@@ -1,4 +1,4 @@
-<h1 align="center">[Previous](https://github.com/Ezra-Mallo/AirBnB_clone_v1)   | 0x02. AirBnB clone - MySQL. | [Next](https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/README_2.md)</h1>
+# [Previous](https://github.com/Ezra-Mallo/AirBnB_clone_v1)   | 0x02. AirBnB clone - MySQL. | [Next](https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/README_2.md)
 
 <p align="center">
 <img src="https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/images_logos/hbnb_logo.png"
