@@ -22,9 +22,9 @@ sudo chown -R ubuntu:ubuntu /data
 
 datetim=$(date '+%d_%m_%Y_%H_%M_%S')
 new_default="default_$datetim"
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/$new_default
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/"$new_default"
 
 replacement="\t\talias /data/web_static/current;\n\t}\n"
-sudo sed -i "s/root /var/www/html;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+sudo sed -i "s/root /var/www/html;/$replacement/" /etc/nginx/sites-enabled/default
 
 sudo service nginx start
