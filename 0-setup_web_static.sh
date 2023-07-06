@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Install Nginx if it not already installed
-sudo apt update -y
-sudo apt install nginx -y
+apt update -y
+apt install nginx -y
 
 # create the folders and path if it does not exist
-sudo mkdir -p /data/web_static/releases/test/
-sudo mkdir -p /data/web_static/shared/ 
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/ 
 
 # create file with content if not exist
 file_path="/data/web_static/releases/test/index.html"
@@ -16,20 +16,18 @@ content=\
       <h1>This is my index.html file. Release 1.0 </h1>
     </body>
 </html>"
+
 if [ ! -f "$file_path" ]; then
     # Create the file with the desired content
-    echo "$content" > "$file_path"
-    echo "File created: $file_path"
-else
-    echo "File already exists: $file_path"
+    echo "$content" | tee "$file_path"
 fi
 
 # change user:group ownership of /data/
-sudo chown -R ubuntu:ubuntu /data/
+chown -R ubuntu:ubuntu /data/
 
 
 # create symbolic link for current if not exist
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 alias_config=\
 "   location /hbnb_static {
