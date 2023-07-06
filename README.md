@@ -1,5 +1,4 @@
-<h1 align="center">[Previous](https://github.com/Ezra-Mallo/AirBnB_clone_v1)   | 0x02. AirBnB clone - MySQL. | [Next](https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/README_2.md)</h1>
-
+# [Previous](https://github.com/Ezra-Mallo/AirBnB_clone_v1/README.md)   | 0x02. AirBnB clone - MySQL. | [Next](https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/README_2.md)
 <p align="center">
 <img src="https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/images_logos/hbnb_logo.png"
 	    alt="ALX_AirBnB logo">
@@ -77,6 +76,7 @@ List of commands this console current supports:
 * `destroy` - Deletes an instance based on the class name and id (save the change into the JSON file).
 * `show` - Prints the string representation of an instance based on the class name and id.
 * `all` - Prints all string representation of all instances based or not on the class name.
+* `all` - Prints all string representation of all instances based or not on the class name.
 * `update` - Updates an instance based on the class name and id by adding or updating attribute (save the change into the JSON file).
 
 #### `models/` directory contains classes used for this project:
@@ -133,7 +133,6 @@ TestBaseModel class:
 
 [/test_models/test_file_storage.py](/tests/test_models/test_file_storage.py) - Contains the TestFileStorageDocs class:
 * `def setUpClass(cls)` - Set up for the doc tests
-* `def test_pep8_conformance_file_storage(self)` - Test that models/file_storage.py conforms to PEP8
 * `def test_pep8_conformance_test_file_storage(self)` - Test that tests/test_models/test_file_storage.py conforms to PEP8
 * `def test_file_storage_module_docstring(self)` - Test for the file_storage.py module docstring
 * `def test_file_storage_class_docstring(self)` - Test for the FileStorage class docstring

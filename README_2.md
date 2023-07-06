@@ -1,4 +1,5 @@
-<h1 align="center">0x03. AirBnB clone - Deploy static</h1>
+# [Previous](https://github.com/Ezra-Mallo/AirBnB_clone_v2/edit/master/README.md)   | 0x03. AirBnB clone - Deploy static| [Next]()
+
 <p align="center">
 <img src="https://github.com/Ezra-Mallo/AirBnB_clone_v2/blob/master/images_logos/hbnb_logo.png"
 	    alt="ALX_AirBnB logo">
