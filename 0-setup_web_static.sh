@@ -6,10 +6,15 @@ sudo apt-get install nginx -y
 
 # create /data/web_static/releases/test/ if it does not exist
 sudo mkdir -p /data/web_static/releases/test/
+
 # create file with content if not exist
 file_path="/data/web_static/releases/test/index.html"
-content="<html><body><h1>This is my index.html file. Release 1.0 </h1></body></html>"
-# Check if the file exists
+content=\
+"<html>
+    <body>
+      <h1>This is my index.html file. Release 1.0 </h1>
+    </body>
+</html>"
 if [ ! -f "$file_path" ]; then
     # Create the file with the desired content
     echo "$content" > "$file_path"
@@ -17,7 +22,6 @@ if [ ! -f "$file_path" ]; then
 else
     echo "File already exists: $file_path"
 fi
-
 
 # change user:group ownership of /data/
 sudo chown -R ubuntu:ubuntu /data/
@@ -28,10 +32,10 @@ sudo mkdir -p /data/web_static/shared/
 # create symbolic link for current if not exist
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-alias_config =\
+alias_config=\
 "   location /hbnb_static {
-	 alias /data/web_static/current/;
+	alias /data/web_static/current/;
 }"
-echo -e "$alias_config" | sudo tee /etc/nginx/sites-available/default
+echo -e "$alias_config" | sudo tee -a /etc/nginx/sites-available/default
 
 sudo systemctl restart nginx
