@@ -1,19 +1,22 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+"""
+This is the do_pack function that creates the tgz version of a web_statics"""
+from datetime import datetime
 from fabric.api import local
-from time import strftime
-from datetime import date
 
 
 def do_pack():
-    """ A script that generates archive the contents of web_static folder"""
-
-    filename = strftime("%Y%m%d%H%M%S")
+    """Generate an tgz archive from web_static folder"""
     try:
+        timestmp = datetime.now().strftime("%Y%m%d%H%M%S")
+
+        archive_name = "versions/web_static_{}.tgz web_static".format(timestmp)
+
         local("mkdir -p versions")
         local("tar -czvf versions/web_static_{}.tgz web_static/"
               .format(filename))
-
-        return "versions/web_static_{}.tgz".format(filename)
-
-    except Exception as e:
-        return None`
+#        local("tar -cvzf "+ archive_name)
+#        return (archive_name)
+        return "versions/web_static_{}.tgz".format(timestmp)
+    except:
+        return None
