@@ -26,6 +26,7 @@ For this project, we expect you to look at these concepts:
 * [AirBnB clone](https://github.com/Ezra-Mallo/AirBnB_clone_v1)
 
 ## Resources to read or watch:
+* [Fabric](https://github.com/fabric/fabric)
 * [How to use Fabric](https://www.digitalocean.com/community/tutorials/how-to-use-fabric-to-automate-administration-tasks-and-deployments)
 * [How to use Fabric in Python](https://www.pythonforbeginners.com/systems-programming/how-to-use-fabric-in-python)
 * [Fabric and command line options](https://docs.fabfile.org/en/1.13/usage/fab.html)

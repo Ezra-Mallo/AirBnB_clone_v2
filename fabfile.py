@@ -1,38 +1,24 @@
-# Fabfile to:
-#    - update the remote system(s) 
-#    - download and install an application
+"""
+Fabric's own fabfile.
+"""
 
-# Import Fabric's API module
-from fabric.api import *
+from __future__ import with_statement
+
+import nose
+
+from fabric.api import task
 
 
-env.hosts = [
-    'server.domain.tld',
-  # 'ip.add.rr.ess
-  # 'server2.domain.tld',
-]
-# Set the username
-env.user   = "root"
-
-# Set the password [NOT RECOMMENDED]
-# env.password = "passwd"
-
-def update_upgrade():
+@task(default=True)
+def test(args=None):
     """
-        Update the default OS installation's
-        basic default tools.
-                                            """
-    run("aptitude    update")
-    run("aptitude -y upgrade")
+    Run all unit tests and doctests.
 
-def install_memcached():
-    """ Download and install memcached. """
-    run("aptitude install -y memcached")
-
-def update_install():
-
-    # Update
-    update_upgrade()
-    
-    # Install
-    install_memcached()
+    Specify string argument ``args`` for additional args to ``nosetests``.
+    """
+    # Default to explicitly targeting the 'tests' folder, but only if nothing
+    # is being overridden.
+    tests = "" if args else " tests"
+    default_args = "-sv --with-doctest --nologcapture --with-color %s" % tests
+    default_args += (" " + args) if args else ""
+    nose.core.run_exit(argv=[''] + default_args.split())
