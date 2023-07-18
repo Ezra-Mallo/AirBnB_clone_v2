@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""Deployin code to server"""
+
 import os.path
 from datetime import datetime
 from fabric.api import env
