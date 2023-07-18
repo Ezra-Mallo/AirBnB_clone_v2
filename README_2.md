@@ -37,6 +37,28 @@ For this project, we expect you to look at these concepts:
 * [Fabric Documentation](https://www.fabfile.org/)
 * [tar commad](https://linuxize.com/post/how-to-create-and-extract-archives-using-the-tar-command-in-linux/)
 
+## Usage
+* 0-setup_web_static
+```
+sudo ./0-setup_web_static.shi
+```
+
+* 1-pack_web_static.py
+```
+fab -f 1-pack_web_static.py do_pack
+```
+
+* 2-do_deploy_web_static.py
+```
+fab -f 2-do_deploy_web_static.py do_deploy:archive_path=versions/web_static_20170315003959.tgz -i ~/.ssh/my_ssh_private_key -u ubuntu
+```
+
+*  3-deploy_web_static.py deploy
+```
+fab -f 3-deploy_web_static.py deploy -i my_ssh_private_key -u ubuntu
+```
+ls -ltr versions
+
 ## Install Fabric for Python 3 - version 1.14.post1
 ```
 $ pip3 uninstall Fabric

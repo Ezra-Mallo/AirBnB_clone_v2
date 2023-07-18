@@ -7,7 +7,7 @@ sudo apt install nginx -y
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
 # create file with content if not exist
-echo echo "<!DOCTYPE html>
+echo "<!DOCTYPE html>
 <html>
   <head>
   </head>
