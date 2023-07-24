@@ -19,7 +19,6 @@ def hello():
     """displays "HBNB" for route: /hbnb"""
     return ('HBNB')
 
-
 @app.route("/c/<text>", strict_slashes=False)
 def cText(text):
     """displays /c/<text>: display “C ” followed by the value of the text
