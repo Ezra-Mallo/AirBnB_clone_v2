@@ -1,4 +1,4 @@
-#!/bin/usr/env python3
+#!/usr/bin/python3
 """class State defined here to inherit from BaseModel"""
 
 import models
