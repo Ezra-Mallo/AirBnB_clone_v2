@@ -34,3 +34,25 @@ $ pip3 install Flask
 * [Flask](https://palletsprojects.com/p/flask/)
 * [Jinja](https://jinja.palletsprojects.com/en/2.9.x/templates/)
 
+
+* When you encounter the error 
+```
+Ubuntu:~/alx/AirBnB_clone_v2$ python3 -m web_flask.0-hello_route
+ * Serving Flask app '0-hello_route' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Address already in use
+Port 5000 is in use by another program. Either identify and stop that program, or start the server with a different port.
+```
+* Use this approach to release the port manually:
+In some cases, the process using port 5000 might not be necessary, and you can release the port manually. On Linux, you can use the fuser command:
+```
+fuser -k 5000/tcp
+```
+This command will forcefully kill the process using port 5000, allowing you to start the Flask server on that port.
+
+Remember that if you choose a different port for your Flask server, you will need to use that port number in the URL when accessing the application in your web browser or making HTTP requests.
+
+After implementing one of the above options, you should be able to start the Flask application without any issues.
