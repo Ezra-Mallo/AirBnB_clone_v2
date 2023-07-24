@@ -34,6 +34,81 @@ $ pip3 install Flask
 * [Flask](https://palletsprojects.com/p/flask/)
 * [Jinja](https://jinja.palletsprojects.com/en/2.9.x/templates/)
 
+# Usage
+```
+ubuntu:~/alx/AirBnB_clone_v2$ python3 -m web_flask.0-hello_route
+ * Serving Flask app '0-hello_route' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.2.15:5000
+Press CTRL+C to quit
+
+```
+* In another tab:
+```
+ubuntu:~$ curl -Ls 0.0.0.0:5000 ; echo "" | cat -e
+Hello HBNB!$
+ubuntu:~$
+```
+
+
+```
+ubuntu:~/alx/AirBnB_clone_v2$ python3 -m web_flask.1-hello_route
+ * Serving Flask app '1-hello_route' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.2.15:5000
+Press CTRL+C to quit
+
+```
+* In another tab:
+```
+ubuntu:~$ ubuntu:~$ curl 0.0.0.0:5000/hbnb ; echo "" | cat -e
+HBNB$
+ubuntu:~$
+```
+
+```
+ubuntu:~/alx/AirBnB_clone_v2$ python3 -m web_flask.2-hello_route
+ * Serving Flask app '2-hello_route' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.2.15:5000
+Press CTRL+C to quit
+```
+
+In another tab:
+```
+ubuntu:~$ curl 0.0.0.0:5000/c/is_fun ; echo "" | cat -e
+C is fun$
+ubuntu:~$ curl 0.0.0.0:5000/c/cool ; echo "" | cat -e
+C cool$
+ubuntu:~$ curl 0.0.0.0:5000/c
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.</p>
+ubuntu:~$ 
+```
+
+
+
+
 
 * When you encounter the error 
 ```
