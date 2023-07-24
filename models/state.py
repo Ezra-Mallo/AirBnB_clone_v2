@@ -1,11 +1,7 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
 """class State defined here to inherit from BaseModel"""
 
 import models
-=======
-""" State Module for HBNB project """
->>>>>>> 34c75eecab35b634ff48eaa13531ab0307292ffe
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
