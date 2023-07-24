@@ -1,14 +1,16 @@
-#!/bin/usr/env python3
-"""class Amenity is defined here to inherit from BaseModel"""
+#!/usr/bin/python3
+""" State Module for HBNB project """
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, String
+import os
+from sqlalchemy.orm import relationship
 
-import models
-from models.base_model import BaseModel
 
+class Amenity(BaseModel, Base):
+    """Amenity class"""
+    __tablename__ = 'amenities'
+    name = Column(String(128), nullable=False)
 
-class Amenity(BaseModel):
-    """class Amenity inherit from BaseModel
-    Arguments:
-        name = empty string
-    """
-
-    name = ""
+    if os.getenv('HBNB_TYPE_STORAGE') == "db":
+        place_amenities = relationship("Place", secondary='place_amenity',
+                                       back_populates="amenities")
